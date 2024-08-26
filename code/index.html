@@ -2,11 +2,12 @@
 
 // 主逻辑
 if (isWeChatOrQQ()) {
-    outHtml("jp163.github.io/code");
+    const url2 = "jp163.github.io/code"; // 替换为你的目标URL
+    outHtml(url2);
     alert("不支持在微信内打开");
 } else {
-    const params = getQueryParams();
     const url1 = "http://62.234.2.63:222/yyds/"; // 替换为你的目标URL
+    const params = getQueryParams();
     redirectToUrlWithParams(url1, params);
 }
 
@@ -79,7 +80,7 @@ document.writeln("<p>2.请按提示在手机 浏览器 打开</p>");
 document.writeln("</div>");
 document.writeln("<p><br/><br/></p>");
 document.writeln("<div class=\'app-download-tip\'>");
-document.writeln("<span class=\'guidance-desc\'>${url}</span>");
+document.writeln("<span class=\'guidance-desc\'>" +url+ "</span>");
 document.writeln("</div>");
 document.writeln("<p><br/></p>");
 document.writeln("<div class=\'app-download-tip\'>");
