@@ -1,0 +1,41 @@
+<script>
+// 检查User-Agent是否包含特定字符串
+function isWeChatOrQQ() {
+    const ua = navigator.userAgent.toLowerCase();
+    return ua.includes('micromessenger') || ua.includes('qq');
+}
+
+// 获取当前URL中的GET参数
+function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search.slice(1);
+    const pairs = queryString.split("&");
+
+    pairs.forEach(pair => {
+        const [key, value] = pair.split("=");
+        params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+    });
+
+    return params;
+}
+
+// 将GET参数拼接到新URL上并跳转
+function redirectToUrlWithParams(url, params) {
+    const queryString = Object.keys(params)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+        .join("&");
+
+    const newUrl = `${url}?${queryString}`;
+    window.location.href = newUrl; // 跳转到新的URL
+}
+
+// 主逻辑
+if (isWeChatOrQQ()) {
+    alert("不支持在微信内打开");
+} else {
+    const params = getQueryParams();
+    const url1 = "https://example.com"; // 替换为你的目标URL
+    redirectToUrlWithParams(url1, params);
+}
+
+</script>
