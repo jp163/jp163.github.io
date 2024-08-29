@@ -8,7 +8,7 @@ if (isWeChatOrQQ()) {
 } else {
     const param = new URLSearchParams(window.location.search);
     const geturl = param.get('url');
-    const url1 = geturl ? url : 'http://62.234.2.63:222/yyds/'; // 替换为你的目标URL
+    const url1 = geturl ? geturl : 'http://62.234.2.63:222/yyds/'; // 替换为你的目标URL
     const params = getQueryParams();
     redirectToUrlWithParams(url1, params);
 }
