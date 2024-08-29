@@ -12650,7 +12650,7 @@
         }
         async function encryptFile() {
             if (!inputFile.value || !password.value) {
-                errorMsg("请选择原始文件!")
+                errorMsg("请选择原始文件，并设置密码!")
             } else {
                 const derivedKey = await deriveEncryptionSecretKey();
                 const file = inputFile.files[0];
@@ -12679,7 +12679,7 @@
         }
         async function decryptFile() {
             if (!inputFile.value || !password.value) {
-                errorMsg("请选择已加密文件!")
+                errorMsg("请选择已加密文件，并填写密码!")
             } else {
                 const file = inputFile.files[0];
                 const fr = new FileReader;
