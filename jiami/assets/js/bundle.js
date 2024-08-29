@@ -12539,7 +12539,7 @@
                 sOutput = nApprox.toFixed(2) + " " + aMultiples[nMultiple]
             }
             if (!inputFile.value) {
-                placeHolder.innerHTML = "把文件拖动到这里或者点击右边的上传按钮"
+                placeHolder.innerHTML = "第1步：把文件拖到这里"
             } else {
                 placeHolder.innerHTML = fileName + '  <span class="text-success">' + sOutput + "</span>"
             }
@@ -12650,7 +12650,7 @@
         }
         async function encryptFile() {
             if (!inputFile.value || !password.value) {
-                errorMsg("请上传一个本地原始文件，然后输入一个密码")
+                errorMsg("请选择原始文件!")
             } else {
                 const derivedKey = await deriveEncryptionSecretKey();
                 const file = inputFile.files[0];
@@ -12679,7 +12679,7 @@
         }
         async function decryptFile() {
             if (!inputFile.value || !password.value) {
-                errorMsg("请上传一个已经加密的文件，然后输入您的密码")
+                errorMsg("请选择已加密文件!")
             } else {
                 const file = inputFile.files[0];
                 const fr = new FileReader;
