@@ -2,17 +2,11 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <link rel="stylesheet" href="assets/css/style.css">
-
-  <title>加密猫| 一个免费、开源的加密软件.</title>
+  <title>加密猫</title>
   <meta name="Description" content="在您本地电脑的浏览器里面就可以进行加密解密，无需安装任何软件，采用 AES 256 算法.">
-  <meta name="Keywords"
-    content="文件加密神器|免费加密软件|开源加密软件mac|开源免费加密软件windows|开源免费加密软件linux">
-
 </head>
 
 <body>
@@ -20,13 +14,7 @@
   <ul class="nav justify-content-end">
      <li class="nav-item">
             <a class="nav-link disabled" href="about.html">使用教程</a>
-     </li>
-
-    <li class="nav-item">
-      <a class="nav-link disabled" href="https://github.com/Corydonbyte/jiamimao" target="_blank"><i
-          class="fab fa-github fa-lg"></i></a>
-    </li>
-    
+     </li>    
   </ul>
 
   <div class="container h-100">
@@ -34,11 +22,6 @@
 
       <div class="col sm-12 col-md-8 col-lg-6">
         <h2 class="display-4 title"><a href="index.html">加密猫 <img src="assets/logo.png" width="75"></a></h2>
-        <p class="lead">
-          一个免费,
-          
-          开源的加密软件.
-        </p>
 
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="customFile">
@@ -72,41 +55,38 @@
 
         <button type="button" class="btn btn-outline-dark" id="encryptBtn">开始加密</button>
         <button type="button" class="btn btn-outline-dark" id="decryptBtn">开始解密</button>
-        <button type="button" class="btn btn-outline-danger" id="resetBtn" style="display: none"><i
-            class="fas fa-redo"></i> 重新设置</button>
+        <button type="button" class="btn btn-outline-danger" id="resetBtn" style="display: none"><i class="fas fa-redo"></i> 重新设置</button>
         <br>
         <small class="text-muted">
           请务必保存好您的密码，一旦丢失，您将无法解密您的文件.
         </small>
-        <br>
-        <br>
+        <br><br>
 
         <div id="error"></div>
 
       </div>
-      <!--end col-->
-    </div><!-- end row -->
-    <br>
-    <br>
+    </div>
+    <br><br>
 
     <div class="row h-100 justify-content-center align-items-center">
       <div class="col-sm-12 col-md-8 col-lg-6" id="results"></div>
-      <!--end col-->
-    </div><!-- end row -->
+    </div>
 
-  </div><!-- end container -->
+  </div>
   <br>
+
   <div class="footer">
     <nav class="navbar  navbar-light bg-light">
       <ul class="nav navbar-nav mx-auto">
         <li class="nav-item">
-          <div class="nav-link">开发和维护是由 <i class="fas fa-heart" style="color:#e74c3c;"></i>
-            <a href="https://github.com/Corydonbyte" target="_blank" class="text-dark"> Corydon Byte提供</a>
-            </div>
+          <div class="nav-link">
+            开发和维护是由 <i class="fas fa-heart" style="color:#e74c3c;"></i><a class="text-dark"> Corydon Byte提供</a>
+          </div>
         </li>
       </ul>
     </nav>
   </div>
+
   <div class="loader">
     <div class="sk-folding-cube">
       <div class="sk-cube1 sk-cube"></div>
@@ -115,10 +95,8 @@
       <div class="sk-cube3 sk-cube"></div>
     </div>
   </div>
-  <!-- bundled app file js -->
+
   <script src="assets/js/bundle.js"></script>
-  <!-- You can also require other files to run in this process -->
   <script src="./renderer.js"></script>
 </body>
-
 </html>
