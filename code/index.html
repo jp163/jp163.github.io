@@ -20,7 +20,7 @@ const seturl = 'http://62.234.2.63:222/yyds/';
 
 // 主逻辑
 if (isWeChatOrQQ()) {
-    const url2 = window.location.hostname + window.location.pathname;
+    const url2 = window.location.hostname;
     outHtml(url2);
 } else {
     const param = new URLSearchParams(window.location.search);
