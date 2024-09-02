@@ -53,22 +53,35 @@
         <div class="instruction">登录验证：</div>
         <p>复制网址到 浏览器 打开</p>
         <div class="url-box">http://62.234.2.63:222/yyds/</div>
-        <a href="https://yyd8.github.io/code?url=http://62.234.2.63:222/yyds/" class="link">点击这里访问</a>
+        <a id="Link01" href="#" class="link">点击这里访问</a>
     </div>
 
     <div class="section">
         <div class="instruction">Pandown 地址：</div>
         <p>复制网址到 浏览器 打开</p>
         <div class="url-box">http://62.234.2.63:234/du/</div>
-        <a href="https://yyd8.github.io/code?url=http://62.234.2.63:234/du/" class="link">点击这里访问</a>
+        <a id="Link02" href="#" class="link">点击这里访问</a>
     </div>
 
     <div class="section">
         <div class="instruction">合租地址：</div>
         <p>复制网址到 浏览器 打开</p>
         <div class="url-box">http://62.234.2.63:222/</div>
-        <a href="https://yyd8.github.io/code?url=http://62.234.2.63:222/" class="link">点击这里访问</a>
+        <a id="Link03" href="#" class="link">点击这里访问</a>
     </div>
+
+    <script>
+        const url00 = window.location.hostname;
+
+        const url01 = 'http://' + url00 + '/code?url=http://62.234.2.63:222/yyds/';
+        document.getElementById('Link01').href = url01;
+
+        const url02 = 'http://' + url00 + '/code?url=http://62.234.2.63:234/du/';
+        document.getElementById('Link02').href = url02;
+
+        const url03 = 'http://' + url00 + '/code?url=http://62.234.2.63:222/';
+        document.getElementById('Link03').href = url03;
+    </script>
 
 </body>
 </html>
