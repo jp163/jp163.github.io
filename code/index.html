@@ -16,8 +16,7 @@
 <script>
 
 // 替换为你的目标URL
-const host = window.location.hostname;
-const seturl = 'http://' + host;
+const seturl = 'http://' + window.location.hostname;
 
 // 主逻辑
 if (isWeChatOrQQ()) {
@@ -25,9 +24,9 @@ if (isWeChatOrQQ()) {
 } else {
     const param = new URLSearchParams(window.location.search);
     const geturl = param.get('url');
-    const to-url = geturl ? geturl : seturl;
+    const toourl = geturl ? geturl : seturl;
     const params = getQueryParams();
-    redirectToUrlWithParams(to-url, params);
+    redirectToUrlWithParams(toourl, params);
 }
 
 // 检查User-Agent是否包含特定字符串
