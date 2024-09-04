@@ -17,14 +17,14 @@
 
 // 替换为你的目标URL
 const seturl = 'http://' + window.location.hostname;
+const param = new URLSearchParams(window.location.search);
+const geturl = param.get('url');
+const toourl = geturl ? geturl : seturl;
 
 // 主逻辑
 if (isWeChatOrQQ()) {
-    outHtml(seturl);
+    outHtml(toourl);
 } else {
-    const param = new URLSearchParams(window.location.search);
-    const geturl = param.get('url');
-    const toourl = geturl ? geturl : seturl;
     const params = getQueryParams();
     redirectToUrlWithParams(toourl, params);
 }
