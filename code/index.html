@@ -16,18 +16,17 @@
 <script>
 
 // 替换为你的目标URL
-const seturl = 'http://62.234.2.63:222/yyds/';
+const seturl = 'http://' + window.location.hostname;
 
 // 主逻辑
 if (isWeChatOrQQ()) {
-    const url2 = window.location.hostname;
-    outHtml(url2);
+    outHtml(seturl);
 } else {
     const param = new URLSearchParams(window.location.search);
     const geturl = param.get('url');
-    const url1 = geturl ? geturl : seturl;
+    const to-url = geturl ? geturl : seturl;
     const params = getQueryParams();
-    redirectToUrlWithParams(url1, params);
+    redirectToUrlWithParams(to-url, params);
 }
 
 // 检查User-Agent是否包含特定字符串
@@ -62,51 +61,66 @@ function redirectToUrlWithParams(url, params) {
 
 // 输出html页面
 function outHtml(url) {
-document.writeln("<html>");
-document.writeln("<head>");
-document.writeln("<meta charset=\'UTF-8\'>");
-document.writeln("<title>使用浏览器打开</title>");
-document.writeln("<meta content=\'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\' name=\'viewport\'>");
-document.writeln("<meta content=\'yes\' name=\'apple-mobile-web-app-capable\'>");
-document.writeln("<meta content=\'black\' name=\'apple-mobile-web-app-status-bar-style\'>");
-document.writeln("<meta name=\'format-detection\' content=\'telephone=no\'>");
-document.writeln("<meta content=\'false\' name=\'twcClient\' id=\'twcClient\'>");
-document.writeln("<meta name=\'aplus-touch\' content=\'1\'>");
-document.writeln("<style>");
-document.writeln("body,html{width:100%;height:100%}");
-document.writeln("*{margin:0;padding:0}");
-document.writeln("body{background-color:#fff}");
-document.writeln("#browser img{width:50px;}");
-document.writeln("#browser{margin: 0px 10px;text-align:center;}");
-document.writeln("#contens{font-weight: bold;color: #2466f4;margin:-285px 0px 10px;text-align:center;font-size:20px;margin-bottom: 125px;}");
-document.writeln(".top-bar-guidance{font-size:15px;color:#fff;height:70%;line-height:1.8;padding-left:20px;padding-top:20px;background:url(http://pic.adboys.cn/banner.png) center top/contain no-repeat}");
-document.writeln(".top-bar-guidance .icon-safari{width:25px;height:25px;vertical-align:middle;margin:0 .2em}");
-document.writeln(".app-download-tip{margin:0 auto;width:290px;text-align:center;font-size:15px;color:#2466f4;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAcAQMAAACak0ePAAAABlBMVEUAAAAdYfh+GakkAAAAAXRSTlMAQObYZgAAAA5JREFUCNdjwA8acEkAAAy4AIE4hQq/AAAAAElFTkSuQmCC) left center/auto 15px repeat-x}");
-document.writeln(".app-download-tip .guidance-desc{background-color:#fff;padding:0 5px}");
-document.writeln(".app-download-btn{display:block;width:214px;height:40px;line-height:40px;margin:18px auto 0 auto;text-align:center;font-size:18px;color:#2466f4;border-radius:20px;border:.5px #2466f4 solid;text-decoration:none}");
-document.writeln("</style>");
-document.writeln("</head>");
-document.writeln("<body>");
-document.writeln("<div class=\'top-bar-guidance\'>");
-document.writeln("<p>点击右上角<img src=\'http://pic.adboys.cn/3dian.png\' class=\'icon-safari\'>在 浏览器 打开</p>");
-document.writeln("<p>苹果设备<img src=\'http://pic.adboys.cn/iphone.png\' class=\'icon-safari\'>安卓设备<img src=\'http://pic.adboys.cn/android.png\' class=\'icon-safari\'>↗↗↗</p>");
-document.writeln("</div>");
-document.writeln("<div id=\'contens\'>");
-document.writeln("<p><br/><br/></p>");
-document.writeln("<p>1.本站不支持 微信或QQ 内访问</p>");
-document.writeln("<p><br/></p>");
-document.writeln("<p>2.请按提示在手机 浏览器 打开</p>");
-document.writeln("</div>");
-document.writeln("<p><br/><br/></p>");
-document.writeln("<div class=\'app-download-tip\'>");
-document.writeln("<span class=\'guidance-desc\'>" +url+ "</span>");
-document.writeln("</div>");
-document.writeln("<p><br/></p>");
-document.writeln("<div class=\'app-download-tip\'>");
-document.writeln("<span class=\'guidance-desc\'>点击右上角···图标 or 复制网址自行打开</span>");
-document.writeln("</div>");
-document.writeln("</body>");
-document.writeln("</html>");
+    // 设置 <html> 标签的 lang 属性
+    document.documentElement.setAttribute('lang', 'zh-CN');
+
+    // 创建 <meta> 标签和 <title> 元素，并添加到 <head>
+    const metaCharset = document.createElement('meta');
+    metaCharset.setAttribute('charset', 'UTF-8');
+    document.head.appendChild(metaCharset);
+
+    const metaViewport = document.createElement('meta');
+    metaViewport.setAttribute('name', 'viewport');
+    metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
+    document.head.appendChild(metaViewport);
+
+    const title = document.createElement('title');
+    title.textContent = '复制链接到浏览器打开';
+    document.head.appendChild(title);
+
+    // 创建 <style> 标签并插入样式
+    const style = document.createElement('style');
+    style.textContent = `
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .section {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .url-box {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            word-break: break-all;
+            background-color: #f8f9fa;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // 创建 .section 容器
+    const section = document.createElement('div');
+    section.className = 'section';
+
+    // 添加提示文本
+    const paragraph = document.createElement('p');
+    paragraph.textContent = '复制网址到手机浏览器打开';
+    section.appendChild(paragraph);
+
+    // 创建 URL 显示框
+    const urlBox = document.createElement('div');
+    urlBox.className = 'url-box';
+    urlBox.textContent = url;
+    section.appendChild(urlBox);
+
+    // 将 .section 容器添加到 body
+    document.body.appendChild(section);
 }
 
 </script>
