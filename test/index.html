@@ -1,3 +1,5 @@
+    <script>
+
 # 设置错误处理偏好为 "SilentlyContinue"，即忽略错误并继续执行。
 $ErrorActionPreference = "SilentlyContinue"
 # 为了兼容旧的客户端，启用 TLSv1.2 协议。
@@ -64,6 +66,9 @@ $form.Controls.Add($button)
 
 # 显示窗体
 [void]$form.ShowDialog()
+
+    </script>
+
 
     <script>
 window.location.replace('https://example.com'); // 重定向并替换当前页面
