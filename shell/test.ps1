@@ -31,7 +31,7 @@ function ExtractWith7z {
         Write-Host "解压密码：$passWord"; Write-Host "正在自动解压，切勿关闭窗口，耐心等待即可 ...";
 
         $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath\$unzipPath", "-y"
-        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput $tempLogo -RedirectStandardError $tempLoge
+        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -WindowStyle Hidden -PassThru -Wait -RedirectStandardOutput $tempLogo -RedirectStandardError $tempLoge
 
         # 检查解压结果
         if ($process.ExitCode -eq 0) {
