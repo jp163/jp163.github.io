@@ -18,7 +18,7 @@ if ($files.Count -eq 1) {
     # 如果文件数为1，将文件名赋值给变量
     $fileName = $files.Name
     Write-Output "找到的文件: $fileName"
-Extract-With7z -fileName $fileName -passWord $passWord -exeUrl $exeUrl -dllUrl $dllUrl
+ExtractWith7z -fileName $fileName -passWord $passWord -exeUrl $exeUrl -dllUrl $dllUrl
 
 } else {
     # 如果文件数不为1，则报错
@@ -27,7 +27,7 @@ return
 }
 
 
-function Extract-With7z {
+function ExtractWith7z {
     param (
         [string]$fileName,
         [string]$passWord,
