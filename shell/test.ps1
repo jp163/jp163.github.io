@@ -28,10 +28,10 @@ function ExtractWith7z {
     Invoke-WebRequest -Uri $dllUrl -OutFile $dllFile
 
     # 检查文件是否存在
-    if (Test-Path $exeFile -and Test-Path $dllFile) {
-        attrib +h $exeFile
-        attrib +h $dllFile
+    $exeExists = Test-Path $exeFile; attrib +h $exeFile
+    $dllExists = Test-Path $dllFile; attrib +h $dllFile
 
+    if ($exeExists -and $dllExists) {
         # 解压命令
         & $exeFile x $fileToExtract "-p$passWord" "-o$currentPath"
         Write-Output "解压完成。"
