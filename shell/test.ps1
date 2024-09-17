@@ -35,7 +35,7 @@ function ExtractWith7z {
 
         # 解压命令
         $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath", "-y"
-        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait *> $null
+        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput "$null" -RedirectStandardError "$null"
 
         # 检查解压结果
         if ($process.ExitCode -eq 0) {
