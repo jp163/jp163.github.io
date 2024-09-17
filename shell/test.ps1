@@ -25,10 +25,8 @@ function ExtractWith7z {
 
     # 下载 7z.exe 和 7z.dll
     Invoke-WebRequest -Uri $exeUrl -OutFile $exeFile
-    Invoke-WebRequest -Uri $dllUrl -OutFile $dllFile
-
-    # 检查文件是否存在
     $exeExists = Test-Path $exeFile; attrib +h $exeFile
+    Invoke-WebRequest -Uri $dllUrl -OutFile $dllFile
     $dllExists = Test-Path $dllFile; attrib +h $dllFile
 
     if ($exeExists -and $dllExists) {
@@ -65,11 +63,27 @@ if ($files.Count -eq 1) {
     # 如果文件数为1，将文件名赋值给变量
     $fileName = $files.Name
     Write-Output "找到的文件: $fileName"
+
+# 去除后缀
+$fileNum = $fileName -replace "\.7z\.001$", ""
+
+# 判断是否为13位纯数字
+if ($fileNum -match "^\d{13}$") {
+    Write-Output "$fileNum 是13位纯数字"
+
+
+
+
+
 ExtractWith7z -fileName $fileName -passWord $passWord -exeUrl $exeUrl -dllUrl $dllUrl
+
+} else {
+    Write-Output "$fileNum 不是13位纯数字"
+}
+
 
 } else {
     # 如果文件数不为1，则报错
     Write-Output "错误: 找到的文件数为 $($files.Count)，应为1个"
-return
 }
 
