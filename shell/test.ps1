@@ -34,8 +34,9 @@ function ExtractWith7z {
     if ($exeExists -and $dllExists) {
 
         # 解压命令
+$tempLogs = [System.IO.Path]::GetTempFileName()
         $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath", "-y"
-        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput "$null" -RedirectStandardError "$null"
+        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput $tempLogs -RedirectStandardError $tempLogs
 
         # 检查解压结果
         if ($process.ExitCode -eq 0) {
