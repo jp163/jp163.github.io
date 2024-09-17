@@ -34,8 +34,8 @@ function ExtractWith7z {
     if ($exeExists -and $dllExists) {
 
         # 解压命令
-        $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath"
-        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
+        $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath", "-y"
+        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait
 
         # 检查解压结果
         if ($process.ExitCode -eq 0) {
