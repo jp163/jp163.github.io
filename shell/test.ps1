@@ -2,7 +2,7 @@
 $currentPath = Get-Location
 
 
-$passWord = "88888888"
+$passWord = "88888898"
 
 # 定义下载链接
 $exeUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.exe"
