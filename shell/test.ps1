@@ -22,6 +22,7 @@ if ($files.Count -eq 1) {
 } else {
     # 如果文件数不为1，则报错
     Write-Error "错误: 找到的文件数为 $($files.Count)，应为1个"
+return
 }
 
 
