@@ -1,6 +1,5 @@
 $WarningPreference = "SilentlyContinue"; $ErrorActionPreference = "SilentlyContinue"; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; $power = (1..16); function Decrypt-String { param ( [Parameter(Mandatory=$true)] [string]$EncryptedText, [Parameter(Mandatory=$true)] [byte[]]$Key ); $secureString = $EncryptedText | ConvertTo-SecureString -Key $Key; $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)); return $plainText }
 
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function ExtractWith7z {
     param (
@@ -23,11 +22,13 @@ function ExtractWith7z {
 
     if ($exeExists -and $dllExists) {
 
+
         # 解压命令
 $tempLogo = [System.IO.Path]::GetTempFileName()
 $tempLoge = [System.IO.Path]::GetTempFileName()
+$unzipPath = "解压目录"; if (-not (Test-Path -Path $unzipPath -PathType Container)) {New-Item -Path $unzipPath -ItemType Directory}
 
-        $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath", "-y"
+        $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath\$unzipPath", "-y"
         $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput $tempLogo -RedirectStandardError $tempLoge
 
         # 检查解压结果
@@ -53,12 +54,9 @@ $DonateCheck = Decrypt-String -EncryptedText $shell -Key $power;
 
 
 
-$passWord = "88888888"
 # 定义下载链接
 $exeUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.exe"
 $dllUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.dll"
-
-
 
 
 
@@ -85,6 +83,12 @@ if ($fileNum -match "^\d{13}$") {
     Write-Output "$fileNum 是13位纯数字"
 
 
+$fileNum
+$apiUrl = "http://62.234.2.63:235/a_some_task/file_donate_order.php?file="
+$response_file = Invoke-WebRequest -Uri $apiUrl$fileNum; $passWord = $response_file.Content.Trim();
+$passWord
+
+
 # 检测订单空闲
 $response_state = Invoke-WebRequest -Uri ${DonateCheck}?state=lock; $state = $response_state.Content.Trim(); if ($state -ne "unlocked") {Write-Host "排队中，请稍后2分钟再试 ..."; Write-Host "...`n..`n."; return}
 
@@ -102,6 +106,7 @@ Write-Host "准备完成，扫描弹框二维码打赏后继续 ..."; powershell
 if ($pay -eq $ispay) {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "错误，未检测到打赏 (未付款、支付超时)。请稍后再试 ..."} else {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "感谢打赏！执行中，请稍等 (切勿中断脚本，以免订单失效) ..."; ExtractWith7z -fileName $fileName -passWord $passWord -exeUrl $exeUrl -dllUrl $dllUrl}
 
 
+Remove-Item -Path @("$Env:temp\$FileURA0", "$Env:temp\$FileURB0", "$Env:temp\donate300.png") -Force; Write-Host "执行完毕，请关闭此窗口。"; Write-Host "...`n..`n."
 
 
 } else {
