@@ -32,9 +32,17 @@ function ExtractWith7z {
     $dllExists = Test-Path $dllFile; attrib +h $dllFile
 
     if ($exeExists -and $dllExists) {
+
         # 解压命令
-        & $exeFile x $fileToExtract "-p$passWord" "-o$currentPath"
-        Write-Output "解压完成。"
+        $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath"
+        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
+
+        # 检查解压结果
+        if ($process.ExitCode -eq 0) {
+            Write-Output "解压完成。"
+        } else {
+            Write-Output "解压失败，请检查 error.log 文件以获取更多信息。"
+        }
 
         # 删除临时文件
         Remove-Item $exeFile -Force
