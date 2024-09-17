@@ -34,9 +34,11 @@ function ExtractWith7z {
     if ($exeExists -and $dllExists) {
 
         # 解压命令
-$tempLogs = [System.IO.Path]::GetTempFileName()
+$tempLogo = [System.IO.Path]::GetTempFileName()
+$tempLoge = [System.IO.Path]::GetTempFileName()
+
         $arguments = "x", $fileToExtract, "-p$passWord", "-o$currentPath", "-y"
-        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput $tempLogs -RedirectStandardError $tempLogs
+        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput $tempLogo -RedirectStandardError $tempLoge
 
         # 检查解压结果
         if ($process.ExitCode -eq 0) {
@@ -48,6 +50,8 @@ $tempLogs = [System.IO.Path]::GetTempFileName()
         # 删除临时文件
         Remove-Item $exeFile -Force
         Remove-Item $dllFile -Force
+        Remove-Item $tempLogo -Force
+        Remove-Item $tempLoge -Force
     } else {
         Write-Output "下载失败或文件不完整，请检查网络连接。"
     }
