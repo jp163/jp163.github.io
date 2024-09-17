@@ -48,10 +48,8 @@ $tempLoge = [System.IO.Path]::GetTempFileName()
         }
 
         # 删除临时文件
-        Remove-Item $exeFile -Force
-        Remove-Item $dllFile -Force
-        Remove-Item $tempLogo -Force
-        Remove-Item $tempLoge -Force
+Remove-Item $exeFile, $dllFile, $tempLogo, $tempLoge -Force
+
     } else {
         Write-Output "下载失败或文件不完整，请检查网络连接。"
     }
