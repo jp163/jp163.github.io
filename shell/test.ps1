@@ -10,6 +10,22 @@ $exeUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.exe"
 $dllUrl = "https://gitee.com/dylanbai8/download/releases/download/27.77/7z.dll"
 
 
+
+# 查找所有符合条件的文件
+$files = Get-ChildItem -Path $currentPath -Filter *.7z.001
+
+# 检查文件数
+if ($files.Count -eq 1) {
+    # 如果文件数为1，将文件名赋值给变量
+    $fileName = $files.Name
+    Write-Output "找到的文件: $fileName"
+} else {
+    # 如果文件数不为1，则报错
+    Write-Error "错误: 找到的文件数为 $($files.Count)，应为1个"
+}
+
+
+
 # 7z.exe下载
 Invoke-WebRequest -Uri $exeUrl -OutFile $exeFile
 Invoke-WebRequest -Uri $dllUrl -OutFile $dllFile
@@ -28,12 +44,8 @@ if ($exeExists -and $dllExists) {
 
 
 # 定义文件和7z.exe的路径
-$fileToExtract = Join-Path $currentPath "1314823360480.7z.001"
+$fileToExtract = Join-Path $currentPath $fileName
 
-
-# 检查需要解压的文件是否存在
-if (Test-Path $fileToExtract) {
-    Write-Output "文件 1314823360480.7z.001 存在，开始解压..."
 
     # 解压命令，使用密码88888888
     & $exeFile x $fileToExtract "-p88888888" "-o$currentPath"
@@ -42,10 +54,3 @@ if (Test-Path $fileToExtract) {
 
         Remove-Item $exeFile -Force
         Remove-Item $dllFile -Force
-
-} else {
-    Write-Output "文件 1314823360480.7z.001 不存在。"
-}
-
-
-
