@@ -29,10 +29,10 @@ function ExtractWith7z {
 
         # 检查解压结果
         if ($process.ExitCode -eq 0) {
-            $Push = Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=success";
+            $Push = Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=success&file=${fileNum}";
             Write-Output "恭喜，解压完成。"; Write-Host "执行完毕，请关闭此窗口。"; Write-Host "...`n..`n.";
         } else {
-            $Push = Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=failed";
+            $Push = Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=failed&file=${fileNum}";
             Write-Output "错误，解压失败。"; Write-Host "您的打赏款，将在24小时内 [原路退回]，感谢支持!"; Write-Host "...`n..`n.";
         }
 
@@ -40,7 +40,7 @@ function ExtractWith7z {
         Remove-Item -Path @("$exeFile", "$dllFile") -Force;
 
     } else {
-        $Push = Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=failed";
+        $Push = Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=failed&file=${fileNum}";
         Write-Output "错误，网络异常。"; Write-Host "您的打赏款，将在24小时内 [原路退回]，感谢支持!"; Write-Host "...`n..`n.";
     }
 }
